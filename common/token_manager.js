@@ -1,25 +1,25 @@
-function get_token_from_session(){
+function getTokenFromSession(){
     return window.sessionStorage.getItem('access_token');
 }
-function get_token_from_storage(){
+function getTokenFromStorage(){
     return window.localStorage.getItem("access_token");
 }
-function get_token(){
-    userToken = get_token_from_session()
+function getToken(){
+    userToken = getTokenFromSession()
     if (userToken == null) {
-        userToken = get_token_from_storage()
+        userToken = getTokenFromStorage()
     }
     return userToken
 }
 
-function save_token_to_storage(access_token){
+function saveTokenToStorage(access_token){
     window.localStorage.setItem("access_token", access_token);
 }
-function save_token_to_session(access_token){
+function saveTokenToSession(access_token){
     window.sessionStorage.setItem('access_token', access_token);
 }
 
-async function token_is_valid(access_token){
+async function tokenIsValid(access_token){
     let isValid = false;
     try {
         await $.ajax(await{

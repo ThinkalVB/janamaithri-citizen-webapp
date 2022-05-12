@@ -1,5 +1,3 @@
-
-
 async function getTableVersion(tableName){
     let latestVersion = null;
     try{
@@ -26,14 +24,15 @@ async function getTable(tableName){
     if((latestTableVersion != storedTableVersion) || (storedTableData ==null)){
         await $.ajax(await{
             type: "GET",
-            url: BASE_URL + '/'+tableName,
+            url: BASE_URL + '/' +tableName,
             success: function(data) {
                 console.log(data[tableName]);
                 window.localStorage.setItem(tableName, JSON.stringify(data[tableName]));
                 window.localStorage.setItem(tableName + '__last_update_on', latestTableVersion);
-                return data[tableName];
+                storedTableData = data[tableName];
             }
         });
+        return storedTableData;
     }else{
         return JSON.parse(storedTableData);
     }

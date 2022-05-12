@@ -1,9 +1,16 @@
-addCallHistory()
-addCallHistory()
-addTicketHistory()
-addTicketHistory()
+var userToken      = null
+var policeStations = null
 
-function addCallHistory() {
+init();
+async function init(){
+    userToken = get_token();
+    if(userToken == null || (!(await tokenIsValid(userToken))))
+    {
+        window.location.replace("login.html");
+    }
+}
+
+function addCallHistory(){
     const callHistoryList = document.getElementById("call_history_list");
     const callHistory = `
         <div class="p-2 mt-2 bg-secondary border text-light rounded">
@@ -23,7 +30,7 @@ function addCallHistory() {
     callHistoryList.insertAdjacentHTML( 'beforeend', callHistory);
 }
 
-function addTicketHistory() {
+function addTicketHistory(){
     const ticketHistoryList = document.getElementById("ticket_history_list");
     const ticketHistory = `
         <div class="p-2 mt-2 bg-secondary border text-light rounded">
@@ -41,4 +48,20 @@ function addTicketHistory() {
             </div>  
         </div>`;  
     ticketHistoryList.insertAdjacentHTML( 'beforeend', ticketHistory);
+}
+
+async function logout(access_token){
+    await $.ajax(await{
+        type: "POST",
+        url: BASE_URL + '/user/details',
+        beforeSend : function(xhr) { 
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+            xhr.setRequestHeader('Authorization', 'Bearer '+ access_token); },
+        success: function() {
+
+        }, 
+        error : function() {
+            window.location.replace("login.html");
+        },
+    });
 }

@@ -1,6 +1,11 @@
-userToken = get_token()
-if(userToken != null && await token_is_valid(userToken)){
-    window.location.replace("home.html");
+let userToken = null
+
+init();
+async function init(){
+    userToken = getToken();
+    if(userToken != null && await tokenIsValid(userToken)){
+        window.location.replace("home.html");
+    }
 }
 
 function show_error(message){
@@ -24,9 +29,9 @@ $("#login-button").click(function() {
         },
         success: function(data) {        
             console.log(data["access_token"]);    
-            save_token_to_session(data["access_token"]);
+            saveTokenToSession(data["access_token"]);
             if($("#remember-me").is(":checked")){
-                save_token_to_storage(data["access_token"]);
+                saveTokenToStorage(data["access_token"]);
             }
             window.location.replace("home.html");
         }

@@ -1,4 +1,4 @@
-async function make_signup_captcha(){
+async function makeSignupCaptcha(){
     let captchaId = null;
     try {
         await $.ajax(await{

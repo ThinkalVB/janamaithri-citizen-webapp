@@ -2,10 +2,9 @@ var captchaId    = null;
 var genderTypes  = null;
 var apiResponses = null;
 
-
 init_page();
 async function init_page() {
-    captchaId = await make_signup_captcha();
+    captchaId = await makeSignupCaptcha();
     if(captchaId != null) {
         $("#captcha_pic").attr('src', BASE_URL+ '/citizen/signup/captcha_pic/' + captchaId +'.png');
     }
@@ -29,7 +28,7 @@ function show_error(message){
 }
 
 $("#captcha_refresh").click(async function(){
-    captchaId = await make_signup_captcha();
+    captchaId = await makeSignupCaptcha();
     if(captchaId != null) {
         $("#captcha_pic").attr('src', BASE_URL + '/citizen/signup/captcha_pic/'+ captchaId +'.png');
     }
@@ -66,7 +65,8 @@ $("#signup-button").click(function(){
 
     paramData = "username=" + username + "&password=" + password;
     paramData += "&captcha_id=" + captchaId + "&captcha_code=" + captchaCode;
-    paramData += "&email_id=" + emailID + "&phone=" + phone + "&gender_type_id=" + genderTypeId;
+    paramData += "&private_email_id=" + emailID + "&private_phone=" + phone;
+    paramData += "&gender_type_id=" + genderTypeId;
 
     $.ajax({
         type: "POST",
@@ -75,7 +75,7 @@ $("#signup-button").click(function(){
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;"); },
         success: function(data) {
             console.log('signup success');
-            set_token(data["access_token"]);
+            saveTokenToSession(data["access_token"]);
             window.location.replace("home.html");
         }, 
         error: function(jqXHR) {
