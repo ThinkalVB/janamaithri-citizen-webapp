@@ -8,16 +8,16 @@ async function init(){
     }
 }
 
-function show_error(message){
+function showError(message){
     $("#error-message").show()
     $('#error-message').text(message);
 }
 
 $("#login-button").click(function() {
     const username = $("#username").val();
-    if (username===""){ show_error('Provide a valid username'); return; }
+    if (username===""){ showError('Provide a valid username'); return; }
     const password = $("#password").val();
-    if (password===""){ show_error('Provide a valid password'); return; }
+    if (password===""){ showError('Provide a valid password'); return; }
 
     $.ajax({
         type: "POST",
@@ -25,7 +25,7 @@ $("#login-button").click(function() {
         data: {"grant_type": "password","username": username,"password": password, "client_id": CLIENT_ID},
         beforeSend : function(xhr) { xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;"); },
         error : function(jqXHR) {
-            if(jqXHR.status == 401){ show_error('Invalid username or password');}
+            if(jqXHR.status == 401){ showError('Invalid username or password');}
         },
         success: function(data) {        
             console.log(data["access_token"]);    

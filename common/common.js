@@ -1,4 +1,4 @@
-//const BASE_URL  = 'http://192.168.10.238:8000' http://127.0.0.1:8000
+//const BASE_URL  = 'http://192.168.10.238:8000'
 const BASE_URL  = 'http://127.0.0.1:8000' 
 const MAX_LIMIT = 50;
 const CLIENT_ID = 'webapp.citizen';
@@ -14,13 +14,29 @@ function titleCase(str) {
            item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()).join(' ');
 }
 
-function getResponseMessage(recievedResponse, apiResponses){
+function getResponseMessage(receivedResponse, apiResponses){
     for (const index in apiResponses) {
         const response     = `${apiResponses[index].response}`;
-        const responseDesc = `${apiResponses[index].response_descripton}`;
-        if(response == recievedResponse){
+        const responseDesc = `${apiResponses[index].response_description}`;
+        if(response == receivedResponse){
             return responseDesc;
         }
     }
     return null;
+}
+
+async function logout(){
+    await $.ajax(await{
+        type: "POST",
+        url: BASE_URL + '/logout',
+        beforeSend : function(xhr) { 
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+            xhr.setRequestHeader('Authorization', 'Bearer '+ userToken); },
+        success: function() {
+            window.location.replace("login.html");
+        }, 
+        error : function(jqXHR) {
+            console.log(jqXHR.responseJSON["detail"]);
+        },
+    });
 }

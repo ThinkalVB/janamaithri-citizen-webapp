@@ -26,7 +26,6 @@ async function getTable(tableName){
             type: "GET",
             url: BASE_URL + '/' +tableName,
             success: function(data) {
-                console.log(data[tableName]);
                 window.localStorage.setItem(tableName, JSON.stringify(data[tableName]));
                 window.localStorage.setItem(tableName + '__last_update_on', latestTableVersion);
                 storedTableData = data[tableName];

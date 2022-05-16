@@ -32,8 +32,8 @@ async function tokenIsValid(access_token){
                 console.log('valid token')
                 isValid = true;
             }, 
-            error : function() {
-                console.log('invalid token')
+            error: function(jqXHR) {
+                console.log(jqXHR.responseJSON["detail"]);
             },
         });
     }catch(e) {

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Profile User</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+            rel="stylesheet" 
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+            crossorigin="anonymous">
+        <link rel="stylesheet" 
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+        <link rel="stylesheet" href="common.css"> 
+        <link rel="stylesheet" href="sidebar/sidebar.css"> 
+        <script src="sidebar/sidebar.js"></script> 
+    </head>
+
+<style>
+.labels {
+    font-size: 11px
+}
+
+</style>
+ <nav class="navbar navbar-dark bg-dark fixed-top">
+    <span class="px-2" style="width: 100%;">
+        <span class="flex">
+            <button id="back-button" type="button" class="btn btn-primary fa fa-arrow-left mx-1 btn-icon"></button>
+            <button id="menu" type="button" class="btn btn-primary fa fa-bars mx-1 btn-icon" onclick="toggleSidebar()"></button>
+        </span>
+        <span class="flex float-end">
+            <button id="profile" type="button" class="btn btn-primary fa fa-user mx-1 btn-icon" ></button>
+            <button id="notification" type="button" class="btn btn-primary fa fa-bell mx-1 btn-icon"></button>
+        </span>
+    </span>
+</nav>
+
+<!-- Body -->  
+<body style="margin-top:70px; min-height: 100vh; min-width: 100wh;">
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar-style">
+        <button id="home" type="button" class="btn btn-outline-light sidebar-button">Home</button>
+        <button id="home" type="button" class="btn btn-outline-light sidebar-button">Profile</button>
+        <button id="home" type="button" class="btn btn-outline-light sidebar-button">Logout</button>
+    </div>
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-4 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><span class="text-black-50">STATUS: Active</span><br><span class="text-black-50">UID: 8574225252</span><img class="rounded-circle mt-5" width="150px" src="common/profile.jpg"><span class="font-weight-bold"><b>Thinkal VB</b></span></div>
+        </div>
+        <div class="col-md-4 border-right">
+            <div class="p-3 py-5">
+               
+                <div class="row mt-3">
+                    <div class="col-md-11" style="min-width: ;min-height:"> <label class="labels">Phone Number</label><input type="text" class="form-control " placeholder="enter phone number" value=""> </div>
+                    <div class="col-md-1"><label class="labels"></label><a href="">Verify</a></div>
+                </div>
+                <div class="row mt-2">
+                     <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter emailid" value=""></div>
+                    <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" placeholder="enter address line" value=""></div>
+                    <div class="col-md-12"><label class="labels">Aadhar No</label><input type="text" class="form-control" placeholder="enter aadharno" value=""></div>
+                    <div class="col-md-12"><label class="labels">gender</label><input type="text" class="form-control" placeholder="gender" value=""></div>
+                   
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12" style="min-width: ;min-height:"> <button class="btn btn-primary profile-button" type="button" >Change Password</button> <button class="btn btn-primary profile-button" type="button" >Save Profile</button></div>
+                   
+                </div>
+              
+        </div> 
+     
+        
+    </div>
+</div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+crossorigin="anonymous">
+</script>
+<script src="add_ticket/add_ticket.js"></script>
