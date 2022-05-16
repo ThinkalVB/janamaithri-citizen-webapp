@@ -21,7 +21,6 @@
     <nav class="navbar navbar-dark bg-dark fixed-top">
         <span class="px-2" style="width: 100%;">
             <span class="flex">
-                <button id="back-button" type="button" class="btn btn-primary fa fa-arrow-left mx-1 btn-icon" disabled></button>
                 <button id="menu" type="button" class="btn btn-primary fa fa-bars mx-1 btn-icon" onclick="toggleSidebar()"></button>
             </span>
             <span class="flex float-end">
@@ -31,14 +30,14 @@
         </span>
     </nav>
 
-    <!-- Body -->  
+    <!-- Body -->
     <body style="margin-top:70px; min-height: 100vh; min-width: 100wh;">
         
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar-style">
             <button id="home" type="button" class="btn btn-dark sidebar-button">Home</button>
-            <button id="home" type="button" class="btn btn-outline-light sidebar-button">Profile</button>
-            <button id="home" type="button" class="btn btn-outline-light sidebar-button" onclick="logout()">Logout</button>
+            <button id="profile" type="button" class="btn btn-outline-light sidebar-button">Profile</button>
+            <button id="logout" type="button" class="btn btn-outline-light sidebar-button" onclick="logout()">Logout</button>
         </div>
 
         <!-- Services -->
