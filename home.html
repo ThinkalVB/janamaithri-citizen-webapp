@@ -24,7 +24,7 @@
                 <button id="menu" type="button" class="btn btn-primary fa fa-bars mx-1 btn-icon" onclick="toggleSidebar()"></button>
             </span>
             <span class="flex float-end">
-                <button id="profile" type="button" class="btn btn-primary fa fa-user mx-1 btn-icon" ></button>
+                <button id="profile" type="button" class="btn btn-primary fa fa-user mx-1 btn-icon" onclick="location.href='user_profile.html';"></button>
                 <button id="notification" type="button" class="btn btn-primary fa fa-bell mx-1 btn-icon"></button>
             </span>
         </span>
@@ -36,7 +36,7 @@
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar-style">
             <button id="home" type="button" class="btn btn-dark sidebar-button">Home</button>
-            <button id="profile" type="button" class="btn btn-outline-light sidebar-button">Profile</button>
+            <button id="profile" type="button" class="btn btn-outline-light sidebar-button" onclick="location.href='user_profile.html';">Profile</button>
             <button id="logout" type="button" class="btn btn-outline-light sidebar-button" onclick="logout()">Logout</button>
         </div>
 
@@ -84,7 +84,7 @@
         <div class="row m-2" style="min-height: 50vh; ">
             <!-- Call History -->
             <div class="col px-2 py-4 rounded border shadow" style="margin-bottom: 20px; min-width: 360px;">
-                <span class="d-flex justify-content-between py-1 px-1" style="background-color: #333;">
+                <span class="d-flex justify-content-between py-1 px-1 bg-dark">
                     <button id="make-call" type="button" class="btn btn-primary fa fa-video-camera mx-1 btn-icon"></button>
                     <button id="refresh-history" type="button" class="btn btn-primary fa fa-refresh mx-1 btn-icon"></button>
                     <h6 class="container text-light mt-2" style="text-align: center;">Call History</h6>
@@ -95,9 +95,9 @@
             </div>
             <!-- Ticket History -->  
             <div class="col px-2 py-4 rounded border shadow" style="margin-bottom: 20px; min-width: 350px;">
-                <span class="d-flex justify-content-between py-1 px-1" style="background-color: #333;">
-                    <button id="add-ticket" type="button" class="btn btn-primary fa fa-plus mx-1 btn-icon"></button>
-                    <button id="reload-ticket-list" type="button" class="btn btn-primary fa fa-refresh mx-1 btn-icon" ></button>
+                <span class="d-flex justify-content-between py-1 px-1 bg-dark">
+                    <button id="add-ticket" type="button" class="btn btn-primary fa fa-plus mx-1 btn-icon" onclick="location.href='add_ticket.html';"></button>
+                    <button id="reload-ticket-list" type="button" class="btn btn-primary fa fa-refresh mx-1 btn-icon" onclick="populateTicketHistory()"></button>
                     <h6 class="container text-light mt-2" style="text-align: center;">Ticket History</h6>
                 </span>
                 <div id="ticket_history_list">

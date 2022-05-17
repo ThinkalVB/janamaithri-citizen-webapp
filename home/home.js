@@ -1,9 +1,7 @@
-var userToken   = null
-var maxCallId   = 0
-var minCallId   = 0
-var maxTicketId = 0
-var minTicketId = 0
-
+var userToken        = null
+var ticketsMadeByMe  = null
+var ticketsMadeForMe = null
+var myTickets        = null
 
 init();
 async function init(){
@@ -18,7 +16,6 @@ async function init(){
         const policeStationId = `${policeStations[index].station_code}`;
         $("#police-station").append($("<option></option>").val(policeStationId).html(policeStation));
     }
-    populateStationUsers();
 
     publicServices = await getTable(PUBLIC_SERVICE);
     for(const index in publicServices)
@@ -32,10 +29,8 @@ async function init(){
         }
     }
 
-    let ticketsMadeByMe  = (await getTicketsMadeForMe()).ticket_id;
-    let ticketsMadeForMe = (await getTicketsMadeByMe()).ticket_id;
-    const myTickets = new Set([...ticketsMadeForMe, ...ticketsMadeByMe]);
-    console.log(myTickets);
+    populateStationUsers();
+    populateTicketHistory();
 }
 
 
@@ -74,10 +69,41 @@ $('#police-station').change(async function ()
     populateStationUsers();
 });
 
-async function getTicketDetails(ticketID){
 
+async function populateTicketHistory(){
+    $('#ticket_history_list').empty();
+    
+    ticketsMadeByMe  = (await getTicketsMadeForMe()).ticket_id;
+    ticketsMadeForMe = (await getTicketsMadeByMe() ).ticket_id;
+    myTickets        = new Set([...ticketsMadeForMe, ...ticketsMadeByMe]);
+    myTickets.forEach(async(ticketId) =>{
+        const ticketDetails = await getTicketDetails(ticketId);
+        
+        const options      = {year: 'numeric', month: 'numeric', day: 'numeric',  hour: '2-digit', minute: '2-digit', hour12: true};
+        const stationName  = await getStationName(ticketDetails.ticket.assigned_station_code);
+        const createdOn    = new Date(ticketDetails.ticket.ticket_created_on);
+        const createdOnStr = createdOn.toLocaleDateString('en-GB', options);
+        addTicketHistory(ticketId, ticketDetails.ticket.ticket_status_id, stationName, createdOnStr);
+      })
 }
 
+async function getTicketDetails(ticketId){
+    ticketDetail = null;
+    await $.ajax(await{
+        type: "POST",
+        url: BASE_URL + '/ticket/details?' + "ticket_id=" + ticketId,
+        beforeSend : function(xhr) {
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;"); 
+            xhr.setRequestHeader('Authorization', 'Bearer '+ userToken); },
+        success: function(data) {
+            ticketDetail = data;
+        }, 
+        error : function(jqXHR) {
+            console.log(jqXHR.responseJSON["detail"]);
+        },
+    });
+    return ticketDetail;
+}
 
 async function populateStationUsers(){
     stationUsers = await getStationUsers($('select').val());
@@ -161,16 +187,22 @@ async function getTicketsMadeForMe(){
 }
 
 
-function addCallHistory(callId, duration, time, recipient){
+async function addCallHistory(callId, duration, time, recipient){
     const callHistoryList = document.getElementById("call_history_list");
     const callHistory = `
-        <div class="p-2 mt-2 bg-secondary border text-light rounded">
+        <div class="p-2 mt-2 border text-light rounded" style="background-color: #36454F;">
             <div class="row">
                 <div class="col-3">
-                    <b>ID<br>Duration<br>Time<br>Recipient</b>
+                    <p class="m-0 p-0"><b>ID</b></p>
+                    <p class="m-0 p-0"><b>Duration</b></p>
+                    <p class="m-0 p-0"><b>Time</b></p>
+                    <p class="m-0 p-0"><b>Recipient</b></p>
                 </div>
                 <div class="col-7">
-                    <i>${callId}<br>${duration} minutes<br>${time}<br>${recipient}</i>
+                    <p class="m-0 p-0">${callId}</p>
+                    <p class="m-0 p-0">${duration} minutes</p>
+                    <p class="m-0 p-0">${time}</p>
+                    <p class="m-0 p-0">${recipient}</p>
                 </div>
                 <div class="col-2">
                     <button id="new-ticket-from-call" class="btn-primary fa fa-plus mb-1 btn-icon"></button><br>
@@ -181,16 +213,32 @@ function addCallHistory(callId, duration, time, recipient){
     callHistoryList.insertAdjacentHTML( 'beforeend', callHistory);
 }
 
-function addTicketHistory(ticketId, status, assignedTo, createdOn){
+async function addTicketHistory(ticketId, status, assignedTo, createdOn){
     const ticketHistoryList = document.getElementById("ticket_history_list");
+    
+    const ticketStatusType = await getTicketStatus(status);
+    if(ticketStatusType == "CREATED" || ticketStatusType == "OPEN"){
+        var styledStatus = `<p class="m-0 p-0 text-success"><b>${ticketStatusType}</b></p>`;
+    } else if(ticketStatusType == "ClOSED"){
+        var styledStatus = `<p class="m-0 p-0 text-warning"><b>${ticketStatusType}</b></p>`;
+    } else if (ticketStatusType == "DISPOSED" || ticketStatusType == "REMOVED"){
+        var styledStatus = `<p class="m-0 p-0 text-danger"><b>${ticketStatusType}</b></p>`;
+    }
+
     const ticketHistory = `
-        <div class="p-2 mt-2 bg-secondary border text-light rounded">
+        <div class="p-2 mt-2 border text-light rounded" style="background-color: #36454F;">
             <div class="row">
                 <div class="col-4">
-                    <b>ID<br>Status<br>Assigned To<br>Created On</b>
+                    <p class="m-0 p-0"><b>ID</b></p>
+                    <p class="m-0 p-0"><b>Status</b></p>
+                    <p class="m-0 p-0"><b>Assigned To</b></p>
+                    <p class="m-0 p-0"><b>Created On</b></p>
                 </div>
                 <div class="col-6">
-                    <i>${ticketId}<br>${status}<br>${assignedTo}<br>${createdOn}</i>
+                    <p class="m-0 p-0">${ticketId}</p>
+                    ${styledStatus}
+                    <p class="m-0 p-0">${assignedTo}</p>
+                    <p class="m-0 p-0">${createdOn}</p>
                 </div>
                 <div class="col-2">
                     <button id="follow-up-call" class=" btn-primary rounded fa fa-video-camera  mb-1 btn-icon" ></button><br>

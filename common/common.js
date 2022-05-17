@@ -8,6 +8,7 @@ const ACCOUNT_STATUS = "account_status";
 const GENDER_TYPE    = "gender_type";
 const POLICE_STATION = "police_station";
 const PUBLIC_SERVICE = "public_service";
+const TICKET_STATUS  = "ticket_status";
 
 function titleCase(str) {
     return str.split(' ').map(item => 

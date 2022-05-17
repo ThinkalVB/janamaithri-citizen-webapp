@@ -36,3 +36,25 @@ async function getTable(tableName){
         return JSON.parse(storedTableData);
     }
 }
+
+async function getStationName(stationCode){
+    const policeStations = await getTable(POLICE_STATION);
+    for(const index in policeStations)
+    {
+        if(policeStations[index].station_code == stationCode){
+            return policeStations[index].station_name;
+        }
+    }
+    return null;
+}
+
+async function getTicketStatus(ticketStatusId){
+    const ticketStatusTypes = await getTable(TICKET_STATUS);
+    for(const index in ticketStatusTypes)
+    {
+        if(ticketStatusTypes[index].ticket_status_id == ticketStatusId){
+            return ticketStatusTypes[index].ticket_status;
+        }
+    }
+    return null;
+}
