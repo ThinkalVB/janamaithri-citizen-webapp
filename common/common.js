@@ -1,5 +1,6 @@
 //const BASE_URL  = 'http://192.168.10.238:8000'
-const BASE_URL  = 'http://127.0.0.1:8000' 
+const BASE_URL  = 'http://192.168.5.222:8000'
+//const BASE_URL  = 'http://127.0.0.1:8000' 
 const MAX_LIMIT = 50;
 const CLIENT_ID = 'webapp.citizen';
 

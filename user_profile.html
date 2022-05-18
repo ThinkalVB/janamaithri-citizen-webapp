@@ -49,26 +49,27 @@
                 <img class="rounded-circle border shadow my-2" style="max-width: 250px;" src="user_profile/profile_pic.png">
                 <h5><b>Thinkal V B</b></h5>
             </div>
+
             <div class="col">
                 <small class="text-secondary">Phone number</small>
-                <input id="phone" type="tel" class="form-control" style="width: 350px;">
-                <div class="d-flex mt-1 justify-content-end" style="width: 350px;">
-                    <button type="button" class="btn btn-primary">Verify</button>
+                <div class="d-flex" style="min-width: 350px;">
+                    <input id="phone" type="tel" class="form-control" style="width: 350px;">
+                    <button id="verify_phone" type="button" class="btn btn-primary mx-1" onclick="">Verify</button>
                 </div>                
                 <small class="text-secondary">Email ID</small>
                 <input id="email_id" type="email" class="form-control" style="width: 350px;">
                 <small class="text-secondary">Aadhaar</small>
-                <input id="aadhaar" type="number" class="form-control" style="width: 350px;">
+                <input id="aadhaar" type="text" class="form-control" style="width: 350px;">
                 <small class="text-secondary">Gender</small>
                 <select id="gender" class="form-select" style="width: 350px;"></select>
                 <small class="text-secondary">Address</small>
-                <textarea class="form-control" id="message" type="text" style="width: 350px; height:20vh;"></textarea>
+                <textarea class="form-control" id="message" type="text" style="width: 350px; height:15vh;"></textarea>
                 <span class="justify-content-between" style="width: 350px; display: flex;">
-                    <button id="change_password" class="btn btn-primary mr-1 my-2" type="button">Change Password</button>
-                    <button id="save" class="btn btn-primary mr-1 my-2" type="button">Save</button>    
+                    <button id="change_password" class="btn btn-primary mr-1 my-2" type="button" style="width: 170px;">Change Password</button>
+                    <button id="save" class="btn btn-primary mr-1 my-2" type="button" style="width: 170px;">Save</button>    
                 </span>
             </div>
-        </div>     
+        </div>
 
         <script src="sidebar/sidebar.js"></script>
         <script src="common/common.js"></script>

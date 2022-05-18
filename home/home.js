@@ -1,7 +1,8 @@
 var userToken        = null
-var ticketsMadeByMe  = null
-var ticketsMadeForMe = null
-var myTickets        = null
+var orderBy          = 'asc'
+var startingTicketId = 0
+var maxTicketPerPage = 5
+
 
 init();
 async function init(){
@@ -73,18 +74,24 @@ $('#police-station').change(async function ()
 async function populateTicketHistory(){
     $('#ticket_history_list').empty();
     
-    ticketsMadeByMe  = (await getTicketsMadeForMe()).ticket_id;
-    ticketsMadeForMe = (await getTicketsMadeByMe() ).ticket_id;
-    myTickets        = new Set([...ticketsMadeForMe, ...ticketsMadeByMe]);
-    myTickets.forEach(async(ticketId) =>{
-        const ticketDetails = await getTicketDetails(ticketId);
-        
+    const ticketsMadeByMe  = (await getTicketsMadeForMe(startingTicketId, maxTicketPerPage+1, orderBy)).ticket_id;
+    const ticketsMadeForMe = (await getTicketsMadeByMe (startingTicketId, maxTicketPerPage+1, orderBy)).ticket_id;
+    
+    let myTickets        = new Set([...ticketsMadeForMe, ...ticketsMadeByMe]);
+    let myTicketsInOrder = [...myTickets].sort(function(a, b){return a - b});
+
+    noOfTicketsToDisplay = (myTicketsInOrder.length<maxTicketPerPage)? myTicketsInOrder.length : maxTicketPerPage;
+    for (var i = 0; i < noOfTicketsToDisplay; i++)
+    { 
+        const ticketDetails = await getTicketDetails(myTicketsInOrder[i]);
         const options      = {year: 'numeric', month: 'numeric', day: 'numeric',  hour: '2-digit', minute: '2-digit', hour12: true};
         const stationName  = await getStationName(ticketDetails.ticket.assigned_station_code);
         const createdOn    = new Date(ticketDetails.ticket.ticket_created_on);
         const createdOnStr = createdOn.toLocaleDateString('en-GB', options);
-        addTicketHistory(ticketId, ticketDetails.ticket.ticket_status_id, stationName, createdOnStr);
-      })
+        
+        addTicketHistory(myTicketsInOrder[i], ticketDetails.ticket.ticket_status_id, stationName, createdOnStr);
+        startingTicketId = myTicketsInOrder[i];
+    }
 }
 
 async function getTicketDetails(ticketId){
@@ -150,11 +157,13 @@ async function getStationUsers(stationCode){
     return stationUsers;
 }
 
-async function getTicketsMadeByMe(){
+async function getTicketsMadeByMe(startingTicketId=0, limit=11, order='asc'){
     myTickets = null;
+    paramData = "starting_ticket_id=" + startingTicketId;
+    paramData += "&limit=" + limit + "&order=" + order;
     await $.ajax(await{
         type: "POST",
-        url: BASE_URL + '/ticket/created_by_me',
+        url: BASE_URL + '/ticket/created_by_me?'+ paramData,
         beforeSend : function(xhr) {
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;"); 
             xhr.setRequestHeader('Authorization', 'Bearer '+ userToken); },
@@ -168,11 +177,13 @@ async function getTicketsMadeByMe(){
     return myTickets;
 }
 
-async function getTicketsMadeForMe(){
+async function getTicketsMadeForMe(startingTicketId=0, limit=11, order='asc'){
     myTickets = null;
+    paramData = "starting_ticket_id=" + startingTicketId;
+    paramData += "&limit=" + limit + "&order=" + order;
     await $.ajax(await{
         type: "POST",
-        url: BASE_URL + '/ticket/created_for_me',
+        url: BASE_URL + '/ticket/created_for_me?'+ paramData,
         beforeSend : function(xhr) {
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;"); 
             xhr.setRequestHeader('Authorization', 'Bearer '+ userToken); },
